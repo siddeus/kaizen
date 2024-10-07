@@ -12,7 +12,7 @@ document.getElementById('myForm').addEventListener('submit', function (event) {
     const comment = document.getElementById('textareaComment').value;
 
     const data = {
-        title: name,
+        name: name,
         vacancy: vacancy,
         level: level,
         hardskills: hardskills,
@@ -31,8 +31,23 @@ document.getElementById('myForm').addEventListener('submit', function (event) {
     })
         .then(response => response.json())
         .then(result => {
-            console.log('Sucesso:', result);
-            alert('Dados enviados com sucesso!');
+            //console.log('Sucesso:', result); 
+            let pcd = (data.pcd === "on") ? "Y" : "N"
+            let former = (data.former === "on") ? "Y" : "N"
+            let hardskills = data.hardskills + ' STARS'
+            let softskills = data.softskills + ' STARS'
+
+            let msg = "#### DATA SENT ####" + "\n"
+            msg += "# NOME: " + data.name + " #\n"
+            msg += "# VAGA: " + data.vacancy + " #\n"
+            msg += "# NÍVEL: " + data.level + " #\n"
+            msg += "# HARDSKILLS: " + hardskills + " #\n"
+            msg += "# SOFTSKILLS: " + softskills + " #\n"
+            msg += "# PCD: " + pcd + " #\n"
+            msg += "# FORMER: " + former + " #\n"
+            msg += "# COMMENT: " + data.comment + " #\n"
+
+            alert(msg);
         })
         .catch(error => {
             console.error('Erro:', error);
@@ -81,3 +96,42 @@ function formatarData() {
 
 // Insert data into HTML
 document.getElementById('formatted-date').textContent = formatarData();
+
+//click to genarate
+document.getElementById('btn-suggest-ai').addEventListener('click', function (event) {
+
+    let response = getQuestionsAI();
+    document.getElementById('question').innerHTML = response.question;
+    document.getElementById('keywords').innerHTML = response.keywords;
+})
+
+const questionsAi = [
+    {
+        question: "O que é HTML?",
+        keywords: ["estrutura", "paginas web", "tags"]
+    },
+    {
+        question: "O que é CSS e para que serve?",
+        keywords: ["estilo", "layout", "design"]
+    },
+    {
+        question: "O que é JavaScript e como ele é usado no desenvolvimento web?",
+        keywords: ["interatividade", "programação", "dinâmica"]
+    },
+    {
+        question: "Qual a diferença entre front-end e back-end?",
+        keywords: ["interface", "servidor", "banco de dados"]
+    },
+    {
+        question: "O que é um navegador web?",
+        keywords: ["exibir", "sites", "interpretar"]
+    }
+];
+
+
+function getQuestionsAI() {
+    const index = Math.floor(Math.random() * questionsAi.length);
+    const questionSelected = questionsAi[index];
+
+    return questionSelected;
+}

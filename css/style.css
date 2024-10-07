@@ -1,4 +1,7 @@
 body {
+    border-top: 12px solid darkgray;
+    border-left: 12px solid darkgray;
+    border-bottom: 12px solid darkgray;
     width: 600px;
     padding: 30px;
     background-color: oldlace;
